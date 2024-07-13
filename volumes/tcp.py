@@ -6,7 +6,6 @@ from arpspoof import get_iface
 
 #iptables -F
 #iptables -A OUTPUT -p tcp --tcp-flags RST RST -j DROP && apt update && apt install ufw -y
-#hostname -I | awk '{print $1}'
 
 subprocess.run(args="arp -s 10.9.0.6 ff:ff:ff:ff:ff:aa", shell=True)
 
