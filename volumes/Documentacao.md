@@ -1,6 +1,8 @@
 # Reprodução de Roubo de Sessão TCP inspirado no Mitnick Attack usando Docker
 ## 👨‍💻🕵️ UFPR - CI1007 - Segurança
 
+## Disponível também em: https://hackmd.io/@gustavo-prado/HkEyitW_0 para leitura mais fácil!!
+
 ## 💡 Ideia do Trabalho
 * Usando Arp Spoofing, derrubar o Trusted Server e capturar ISN
 * Forjar pacotes TCP do three-way-handshake
