@@ -25,7 +25,6 @@ services:
 
         command: bash -c "
                       /etc/init.d/openbsd-inetd start  &&
-                      echo '10.9.0.6 root' > /root/.rhosts &&
                       tail -f /dev/null "
                   
     trusted-server:

@@ -5,12 +5,12 @@ import subprocess
 
 # Funcao que pega o endereco MAC local pra enviar no pacote ARP
 def get_localmac():
-   result = subprocess.run("ifconfig -a | sed '4!d' | cut -b 15-31", stdout=subprocess.PIPE, shell=True)
+   result = subprocess.run("ifconfig -a | grep br- -A 3 | sed '4!d' | cut -b 15-31", stdout=subprocess.PIPE, shell=True)
    return result.stdout.decode().strip("\n")
 
-# Pega interface de envio, que é a primeira
+# Pega interface de envio, que é a que tem 'br-' no comeco do nome
 def get_iface():
-   result = subprocess.run("ifconfig -a | sed '1!d' | cut -d ':' -f1", stdout=subprocess.PIPE, shell=True)
+   result = subprocess.run("ifconfig -a | grep br- -A 3 | sed '1!d' | cut -d ':' -f1", stdout=subprocess.PIPE, shell=True)
    return result.stdout.decode().strip("\n")
 
 # Vamos mandar um pacote para a vitima dizendo que o IP que queremos forjar tem nosso MAC
