@@ -38,9 +38,9 @@ Após iniciada a conexão, podemos o pacote do RSH com o seguinte formato:
 | -------- | -------- | -------- | -------- |
 | 1022     | root     | root     | echo "+" > /root/.rhosts |
 
-O RSH usa uma porta secundária, no nosso caso a 1022, para enviar erros que ocorram durante a execução. Os usuários são os padrão do sistema (o user *root*) e o comando que queremos executar substitui o arquivo *.rhosts* do *x-terminal* por um novo, que permite qualquer host adentrar o sistema.
+O RSH usa uma porta secundária, no nosso caso a 1022, para enviar erros que ocorram durante a execução. Os usuários são os padrão do sistema (o user *root*) e o comando que queremos executar substitui o arquivo *.rhosts* do *x-terminal* por um novo, que permite qualquer host adentrar o sistema (símbolo '+' libera acesso a qualquer máquina).
 Após mandar esse pacote, temos que capturar na porta 1022 o pacote mandado pelo *x-terminal*, pegar o número de sequência do pacote e responder com um SYN+ACK para a porta 1023 do terminal.
-### Depois disso tudo, o comando será executado no terminal, nos dando acesso como queríamos.
+### Depois disso tudo, o comando será executado na máquina terminal, nos dando acesso como queríamos.
 
 
 ## 📂 Arquivos
@@ -48,4 +48,9 @@ Após mandar esse pacote, temos que capturar na porta 1022 o pacote mandado pelo
 * *main.py* - Arquivo com o código principal, que chama as funções ARP, mandar os pacotes para forjar a conexão TCP e mandar o pacote RSH
 
 ## ▶️ Execução
-* Dentro da pasta volumes, basta entrar no container do *seed-attacker* e depois executar o *main.py* : `python3 main.py`
+* **!! IMPORTANTE !!** Antes de rodar os scripts para o trabalho é preciso entrar no container do *x-terminal* e criar um arquivo *.rhosts* dentro da pasta `/root` com o seguinte conteúdo:
+`10.9.0.6 root` 
+Assim permitindo o acesso rsh pelo *trusted-server*
+* Depois, basta entrar no container do *seed-attacker*:
+`docker exec -it seed-attacker bash` e entrar na pasta `/volumes`
+* Dentro da pasta volumes, basta executar o *main.py* : `python3 main.py`
